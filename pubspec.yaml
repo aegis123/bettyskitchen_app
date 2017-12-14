@@ -9,17 +9,19 @@ dependencies:
   flutter:
     sdk: flutter
   http: '>=0.11.3+12'
-#  built_value: '^2.1.0'
-#  built_collection: '^1.0.0'
-  json_serializable: '^0.2.3'
+  json_annotation: '^0.2.0 '
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build: '^0.9.0'
-  build_runner: '^0.4.0'
-#  built_value_generator: '^2.1.0'
-  source_gen: '^0.7.0'
+  build: '^0.10.2+1'
+  build_runner: '^0.5.0'
+  source_gen: '^0.7.2'
+  redux: ">=2.0.0 <3.0.0"
+  flutter_redux: ">=0.3.0 <0.4.0"
+  json_serializable: '^0.2.4+1'
+
 
 
 # For information on the generic Dart part of this file, see the
