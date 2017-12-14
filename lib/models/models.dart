@@ -2,7 +2,6 @@ library json_serializable.models;
 
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'models.g.dart';
 
 @JsonSerializable()
@@ -23,7 +22,22 @@ class Post extends Object with _$PostSerializerMixin {
   Post(this.id, this.title, this.content, this.excerpt, this.link,
       this.embedded);
 
-  String get shortTitle => title._rendered.substring(0, 18)+'…';
+  String get shortTitle => title.rendered.substring(0, 18) + '…';
+
+  String postThumbUrl() {
+//    if (embedded.featuredMedias != null) {
+//      var featuredMedia = embedded.featuredMedias[0];
+//      if (featuredMedia != null && featuredMedia.mediaDetails != null) {
+//        return featuredMedia.mediaDetails.sizes.slider.sourceUrl ??
+//            featuredMedia.mediaDetails.sizes.medium.sourceUrl ??
+//            featuredMedia.mediaDetails.sizes.large.sourceUrl ??
+//            featuredMedia.mediaDetails.sizes.full.sourceUrl ??
+//            'https://bettyskitchen.nl/wp-content/uploads/2017/09/logo-640.png';
+//      }
+//    }
+//    return 'https://bettyskitchen.nl/wp-content/uploads/2017/09/logo-640.png';
+    return embedded.featuredMedias[0].mediaDetails.sizes.slider.sourceUrl;
+  }
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 }
@@ -73,10 +87,11 @@ class ImageMedia extends Object with _$ImageMediaSerializerMixin {
   @JsonKey(name: 'media_details', includeIfNull: false, nullable: true)
   final MediaDetails _mediaDetails;
 
-  ImageMedia(this._id, this._title, this._altText, this._mimeType, this._mediaType,
-      this._mediaDetails);
+  ImageMedia(this._id, this._title, this._altText, this._mimeType,
+      this._mediaType, this._mediaDetails);
 
-  factory ImageMedia.fromJson(Map<String, dynamic> json) => _$ImageMediaFromJson(json);
+  factory ImageMedia.fromJson(Map<String, dynamic> json) =>
+      _$ImageMediaFromJson(json);
 
   MediaDetails get mediaDetails => _mediaDetails;
 
@@ -147,7 +162,6 @@ class Sizes extends Object with _$SizesSerializerMixin {
   Size get thumbnail => _thumbnail;
 
   Size get slider => _slider;
-
 }
 
 @JsonSerializable()

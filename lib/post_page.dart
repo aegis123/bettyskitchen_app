@@ -10,8 +10,7 @@ class PostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var image = post.embedded.featuredMedias[0].mediaDetails.sizes.slider ??
-        post.embedded.featuredMedias[0].mediaDetails.sizes.thumbnail;
+    String image = post.postThumbUrl();
 
     return new Scaffold(
       key: _scaffoldKey,
@@ -32,7 +31,7 @@ class PostPage extends StatelessWidget {
                 fit: StackFit.expand,
                 children: <Widget>[
                   new Image.network(
-                    image.sourceUrl,
+                    image,
                     fit: BoxFit.cover,
                     height: _appBarHeight,
                   ),
@@ -57,7 +56,7 @@ class PostPage extends StatelessWidget {
           new SliverList(
               delegate: new SliverChildListDelegate(<Widget>[
             new Padding(
-                padding: new EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: new Text(post.content.rendered)),
           ])),
         ],
@@ -73,8 +72,7 @@ class PostPageRoute extends MaterialPageRoute<Post> {
       {this.post,
       WidgetBuilder builder,
       RouteSettings settings: const RouteSettings()})
-      : assert(post != null),
-        super(builder: builder, settings: settings);
+      : super(builder: builder, settings: settings);
 
   @override
   Post get currentResult => post;
