@@ -5,6 +5,7 @@ import 'package:bettyskitchen_app/post_page.dart';
 import 'package:bettyskitchen_app/services/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 void main() {
   runApp(new MyApp());
@@ -39,18 +40,24 @@ class MyHomePageState extends State<MyHomePage> {
   final ApiClient client =
       new ApiClient(httpClient: createHttpClient(), decoder: new JsonDecoder());
   final List<Post> _data = new List();
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _getPosts();
+    client.getPosts().then((posts) {
+      setState(() {
+        _isLoading = false;
+        _data.addAll(posts);
+      });
+    });
   }
 
   _getPosts() async {
-    var future = client.getPosts();
-    future.then((posts) {
+    client.getPosts().then((posts) {
       setState(() {
-        _data.addAll(posts);
+        _isLoading = false;
+        _data.insertAll(_data.length, posts);
       });
     });
   }
@@ -61,13 +68,15 @@ class MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         title: new Text(widget.title),
       ),
-      body: new RefreshIndicator(
-        child: new ListView.builder(
-          itemBuilder: _itemBuilder,
-          itemCount: _data.length,
-        ),
-        onRefresh: _getPosts,
-      ),
+      body: _isLoading
+          ? const Center(child: const CircularProgressIndicator())
+          : new RefreshIndicator(
+              child: new ListView.builder(
+                itemBuilder: _itemBuilder,
+                itemCount: _data.length,
+              ),
+              onRefresh: _getPosts,
+            ),
     );
   }
 
@@ -94,7 +103,13 @@ class PostCardWidget extends StatelessWidget {
                 children: <Widget>[
                   new Hero(
                       tag: post.postThumbUrl(),
-                      child: new Image.network(post.postThumbUrl())),
+                      child: new CachedNetworkImage(
+                        imageUrl: post.postThumbUrl(),
+                        placeholder: const CircularProgressIndicator(),
+                        errorWidget: new Icon(Icons.error),
+                        fadeInDuration: new Duration(milliseconds: 500),
+                        fadeOutDuration: new Duration(seconds: 1),
+                      )),
                   new Positioned(
                       bottom: 8.0,
                       left: 8.0,
