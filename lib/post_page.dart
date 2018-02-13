@@ -1,6 +1,8 @@
 import 'package:bettyskitchen_app/models/models.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
+
 class PostPage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final double _appBarHeight = 256.0;
@@ -11,7 +13,6 @@ class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String image = post.postThumbUrl();
-
     return new Scaffold(
       key: _scaffoldKey,
       body: new CustomScrollView(
@@ -30,10 +31,14 @@ class PostPage extends StatelessWidget {
               background: new Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
-                  new Image.network(
-                    image,
-                    fit: BoxFit.cover,
+                  new CachedNetworkImage(
+                    imageUrl: image,
+                    placeholder: const CircularProgressIndicator(),
+                    errorWidget: new Icon(Icons.error),
+                    fadeInDuration: new Duration(milliseconds: 500),
+                    fadeOutDuration: new Duration(seconds: 1),
                     height: _appBarHeight,
+                    fit: BoxFit.cover,
                   ),
                   // This gradient ensures that the toolbar icons are distinct
                   // against the background image.
