@@ -10,7 +10,7 @@ For help getting started with Flutter, view our online
 ## Implements
 This app implements the following techniques
 
-- [*] [json_serializable](https://pub.dartlang.org/packages/json_serializable) for parsing json response to objects
-- [*] [cached_network_image](https://pub.dartlang.org/packages/cached_network_image) for loading and caching of image from the web.
+- [x] [json_serializable](https://pub.dartlang.org/packages/json_serializable) for parsing json response to objects
+- [x] [cached_network_image](https://pub.dartlang.org/packages/cached_network_image) for loading and caching of image from the web.
 - [ ] Redux implementation for retrieving and storing network responses in async way.   
 
