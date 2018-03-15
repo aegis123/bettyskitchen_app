@@ -1,5 +1,6 @@
 import 'package:bettyskitchen_app/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -22,6 +23,9 @@ class PostPage extends StatelessWidget {
             pinned: true,
             floating: false,
             snap: false,
+            actions: <Widget>[
+               new IconButton(icon: new Icon(Icons.share), onPressed: _onSharePressed)
+            ],
             flexibleSpace: new FlexibleSpaceBar(
               title: new Text(
                 post.shortTitle,
@@ -67,6 +71,10 @@ class PostPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onSharePressed() {
+    share("Moet je dit recept een proberen ${post.link}");
   }
 }
 
